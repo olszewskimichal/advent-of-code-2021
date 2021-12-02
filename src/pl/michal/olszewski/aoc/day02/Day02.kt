@@ -1,40 +1,47 @@
 package pl.michal.olszewski.aoc.day02
 
+import pl.michal.olszewski.aoc.day02.Operation.DOWN
+import pl.michal.olszewski.aoc.day02.Operation.FORWARD
+import pl.michal.olszewski.aoc.day02.Operation.UP
 import readInput
+
+enum class Operation {
+    FORWARD,
+    DOWN,
+    UP
+}
 
 fun main() {
 
     fun part1(input: List<String>): Int {
         var horizontal = 0
-        var depth = 0;
-        input.asSequence()
-            .forEach {
-                val value = it.substringAfter(" ").toInt()
-                when (it.substringBefore(" ")) {
-                    "forward" -> horizontal += value
-                    "down" -> depth += value
-                    "up" -> depth -= value
-                }
+        var depth = 0
+        input.forEach {
+            val value = it.substringAfter(" ").toInt()
+            when (Operation.valueOf(it.substringBefore(" ").uppercase())) {
+                FORWARD -> horizontal += value
+                DOWN -> depth += value
+                UP -> depth -= value
             }
+        }
         return horizontal * depth
     }
 
     fun part2(input: List<String>): Int {
         var horizontal = 0
-        var depth = 0;
-        var aim = 0;
-        input.asSequence()
-            .forEach {
-                val value = it.substringAfter(" ").toInt()
-                when (it.substringBefore(" ")) {
-                    "forward" -> {
-                        horizontal += value
-                        depth += (value * aim)
-                    }
-                    "down" -> aim += value
-                    "up" -> aim -= value
+        var depth = 0
+        var aim = 0
+        input.forEach {
+            val value = it.substringAfter(" ").toInt()
+            when (Operation.valueOf(it.substringBefore(" ").uppercase())) {
+                FORWARD -> {
+                    horizontal += value
+                    depth += (value * aim)
                 }
+                DOWN -> aim += value
+                UP -> aim -= value
             }
+        }
         return horizontal * depth
     }
 
