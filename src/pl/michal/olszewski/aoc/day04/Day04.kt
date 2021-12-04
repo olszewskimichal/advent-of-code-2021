@@ -60,26 +60,9 @@ fun readBingoBoards(input: List<String>): List<BingoBoard> = input.drop(1)
 
 fun main() {
 
-    fun part1(input: List<String>): Int {
-        val drawnNumbers = input.take(1).flatMap { it.split(",") }.map { it.toInt() }
-        val boardsTMP = readBingoBoards(input)
-
-        drawnNumbers.forEach { numberDrawn ->
-            boardsTMP.forEach { board ->
-                board.markNumber(numberDrawn)
-                if (board.isWinning()) {
-                    return numberDrawn * board.sumOfUnmarkedFields()
-                }
-            }
-        }
-
-        throw IllegalStateException()
-    }
-
-    fun part2(input: List<String>): Int {
+    fun calculateWinningScoresForBoards(input: List<String>, boardsTMP: List<BingoBoard>): MutableList<Int> {
         val winningScores = mutableListOf<Int>()
         val drawnNumbers = input.take(1).flatMap { it.split(",") }.map { it.toInt() }
-        val boardsTMP = readBingoBoards(input)
 
         drawnNumbers.forEach { numberDrawn ->
             boardsTMP
@@ -91,7 +74,18 @@ fun main() {
                     }
                 }
         }
+        return winningScores
+    }
 
+    fun part1(input: List<String>): Int {
+        val boards = readBingoBoards(input)
+        val winningScores = calculateWinningScoresForBoards(input, boards)
+        return winningScores.first()
+    }
+
+    fun part2(input: List<String>): Int {
+        val boards = readBingoBoards(input)
+        val winningScores = calculateWinningScoresForBoards(input, boards)
         return winningScores.last()
     }
 
