@@ -60,12 +60,12 @@ fun readBingoBoards(input: List<String>): List<BingoBoard> = input.drop(1)
 
 fun main() {
 
-    fun calculateWinningScoresForBoards(input: List<String>, boardsTMP: List<BingoBoard>): MutableList<Int> {
+    fun calculateWinningScoresForBoards(input: List<String>, boards: List<BingoBoard>): MutableList<Int> {
         val winningScores = mutableListOf<Int>()
         val drawnNumbers = input.take(1).flatMap { it.split(",") }.map { it.toInt() }
 
         drawnNumbers.forEach { numberDrawn ->
-            boardsTMP
+            boards
                 .filter { !it.isWinning() }
                 .forEach { board ->
                     board.markNumber(numberDrawn)
