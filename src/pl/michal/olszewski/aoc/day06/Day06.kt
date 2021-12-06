@@ -1,7 +1,6 @@
 package pl.michal.olszewski.aoc.day06
 
 import readInput
-import java.util.Arrays
 
 fun main() {
 
