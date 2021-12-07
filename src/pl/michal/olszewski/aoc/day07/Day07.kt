@@ -6,31 +6,20 @@ import kotlin.math.absoluteValue
 fun main() {
 
     fun part1(input: List<String>): Int {
-        val inputAsInt = input.first().split(",").map { it.toInt() }
-        val maxValue = inputAsInt.maxOf { it }
-        val result = (1..maxValue)
-            .map { i ->
-                val result = i to inputAsInt.map {
-                    (it - i).absoluteValue
-                }.sum()
-                result.second
-            }.minOf { it }
-        return result
+        val crabPositions = input.first().split(",").map { it.toInt() }
+        return (crabPositions.minOf { it }..crabPositions.maxOf { it }).minOf {
+            crabPositions.sumOf { position -> (position - it).absoluteValue }
+        }
     }
 
     fun part2(input: List<String>): Int {
-        val inputAsInt = input.first().split(",").map { it.toInt() }
-        val maxValue = inputAsInt.maxOf { it }
-        val result = (1..maxValue)
-            .map { i ->
-                val result = i to inputAsInt.sumOf {
-                    val value = it.coerceAtLeast(i) - it.coerceAtMost(i)
-                    (value * (value + 1)) / 2
-                }
-                System.err.println(result)
-                result.second
-            }.minOf { it }
-        return result
+        val crabPositions = input.first().split(",").map { it.toInt() }
+        return (crabPositions.minOf { it }..crabPositions.maxOf { it }).minOf {
+            crabPositions.sumOf { position ->
+                val n = it.coerceAtLeast(position) - it.coerceAtMost(position)
+                (n * (n + 1)) / 2
+            }
+        }
     }
 
     // test if implementation meets criteria from the description, like:
