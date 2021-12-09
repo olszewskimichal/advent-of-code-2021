@@ -5,25 +5,25 @@ import readInput
 fun main() {
     data class PositionWithValue(val x: Int, val y: Int, val value: Int)
 
-    fun getAdjacents(
+    fun getAdjacentPositionsWithValue(
         columnIndex: Int,
-        parsedInput: List<List<Int>>,
         rowIndex: Int,
+        parsedInput: List<List<Int>>,
         height: Int,
         width: Int
     ): MutableList<PositionWithValue> {
         val positionWithValue = mutableListOf<PositionWithValue>()
         if (columnIndex > 0) {
-            positionWithValue.add(PositionWithValue(columnIndex - 1, rowIndex, parsedInput.get(columnIndex - 1).get(rowIndex)))
+            positionWithValue.add(PositionWithValue(columnIndex - 1, rowIndex, parsedInput[columnIndex - 1][rowIndex]))
         }
         if (rowIndex > 0) {
-            positionWithValue.add(PositionWithValue(columnIndex, rowIndex - 1, parsedInput.get(columnIndex).get(rowIndex - 1)))
+            positionWithValue.add(PositionWithValue(columnIndex, rowIndex - 1, parsedInput[columnIndex][rowIndex - 1]))
         }
         if (columnIndex < height - 1) {
-            positionWithValue.add(PositionWithValue(columnIndex + 1, rowIndex, parsedInput.get(columnIndex + 1).get(rowIndex)))
+            positionWithValue.add(PositionWithValue(columnIndex + 1, rowIndex, parsedInput[columnIndex + 1][rowIndex]))
         }
         if (rowIndex < width - 1) {
-            positionWithValue.add(PositionWithValue(columnIndex, rowIndex + 1, parsedInput.get(columnIndex).get(rowIndex + 1)))
+            positionWithValue.add(PositionWithValue(columnIndex, rowIndex + 1, parsedInput[columnIndex][rowIndex + 1]))
         }
         return positionWithValue
     }
@@ -33,9 +33,9 @@ fun main() {
         val result = mutableListOf<PositionWithValue>()
         for ((columnIndex, row) in parsedInput.withIndex()) {
             for (rowIndex in row.indices) {
-                val checkedValue = parsedInput.get(columnIndex).get(rowIndex)
-                val adjacent = getAdjacents(columnIndex, parsedInput, rowIndex, input.size, row.size)
-                if (adjacent.all { it.value > checkedValue }) {
+                val checkedValue = parsedInput[columnIndex][rowIndex]
+                val adjacentPositions = getAdjacentPositionsWithValue(columnIndex, rowIndex, parsedInput, input.size, row.size)
+                if (adjacentPositions.all { it.value > checkedValue }) {
                     result.add(PositionWithValue(columnIndex, rowIndex, checkedValue))
                 }
             }
@@ -48,7 +48,7 @@ fun main() {
         val todo = mutableListOf(start)
         while (todo.isNotEmpty()) {
             val p = todo.removeLast()
-            val adj = getAdjacents(p.x, parsedInput, p.y, input.size, parsedInput.first().size)
+            val adj = getAdjacentPositionsWithValue(p.x, p.y, parsedInput, input.size, parsedInput.first().size)
             for (a in adj) {
                 if (a.value != 9 && !seen.contains(a)) {
                     seen.add(a)
@@ -60,13 +60,13 @@ fun main() {
     }
 
     fun part1(input: List<String>): Int {
-        val parsedInput = input.map { it.toCharArray().map { it.code - 48 } }
+        val parsedInput = input.map { line -> line.toCharArray().map { it.code - 48 } }
         val result = getLowPoints(parsedInput, input)
         return result.sumOf { it.value + 1 }
     }
 
     fun part2(input: List<String>): Int {
-        val parsedInput = input.map { it.toCharArray().map { it.code - 48 } }
+        val parsedInput = input.map { line -> line.toCharArray().map { it.code - 48 } }
         val result = getLowPoints(parsedInput, input).map { basinSize(it, parsedInput, input) }
         return result.sortedDescending().take(3).reduce { a, b -> a * b }
     }
