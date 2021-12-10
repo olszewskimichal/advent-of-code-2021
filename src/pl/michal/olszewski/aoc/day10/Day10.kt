@@ -8,7 +8,6 @@ fun <T> MutableList<T>.pop(): T? = if (isNotEmpty()) removeAt(lastIndex) else nu
 
 fun main() {
 
-
     fun findIncorrectSign(line: String): Char? {
         val stack = mutableListOf<Char>()
         for (sign in line.toCharArray()) {
@@ -32,65 +31,61 @@ fun main() {
         return null
     }
 
-    fun findIncompleteLineAndFill(line: String): List<Int> {
+    fun isIncorrectLine(line: String): Boolean {
+        return findIncorrectSign(line) != null
+    }
+
+    fun findMissingSigns(line: String): List<Char> {
         val stack = mutableListOf<Char>()
-        val result = mutableListOf<Int>()
+        val result = mutableListOf<Char>()
         for (sign in line.toCharArray()) {
             when (sign) {
                 '(', '[', '{', '<' -> {
                     stack.push(sign)
                 }
                 else -> {
-                    val closeCharacter = stack.pop()
-
-                    when (sign) {
-                        ')' -> if (closeCharacter != '(') return emptyList()
-                        ']' -> if (closeCharacter != '[') return emptyList()
-                        '}' -> if (closeCharacter != '{') return emptyList()
-                        '>' -> if (closeCharacter != '<') return emptyList()
-                    }
-
+                    stack.pop()
                 }
             }
         }
         stack.forEach {
             when (it) {
-                '(' -> result.add(1)
-                '{' -> result.add(3)
-                '[' -> result.add(2)
-                '<' -> result.add(4)
+                '(' -> result.add(')')
+                '[' -> result.add(']')
+                '{' -> result.add('}')
+                '<' -> result.add('}')
             }
         }
         return result.reversed()
     }
 
     fun part1(input: List<String>): Int {
-        return input.map { line ->
-            val findIncorrectSign = findIncorrectSign(line)
-            findIncorrectSign.let {
-                when (it) {
-                    ')' -> 3
-                    ']' -> 57
-                    '}' -> 1197
-                    '>' -> 25137
-                    else -> 0
-                }
-            }
-        }.sum()
+        return input
+            .map { line -> findIncorrectSign(line) }
+            .sumOf { incorrectSign -> incorrectSign.toPointsForIncorrect() }
     }
 
-    fun part2(input: List<String>): Long {
-        val sorted = input.map { line ->
-            val result = findIncompleteLineAndFill(line)
-            var sum = 0L
-            result.forEach {
+    fun sumOfPointsForMissingSigns(missingSigns: List<Char>): Long {
+        var sum = 0L
+        missingSigns
+            .map { sign -> sign.toPointsForMissing() }
+            .forEach {
                 sum *= 5
                 sum += it
             }
-            sum
-        }.filter { it != 0L }
+        return sum
+    }
+
+    fun part2(input: List<String>): Long {
+        val sortedSumOfPoints = input
+            .asSequence()
+            .filterNot { isIncorrectLine(it) }
+            .map { line -> findMissingSigns(line) }
+            .filter { it.isNotEmpty() }
+            .map { missingSigns -> sumOfPointsForMissingSigns(missingSigns) }
             .sorted()
-        return sorted[sorted.size / 2]
+            .toList()
+        return sortedSumOfPoints[sortedSumOfPoints.size / 2]
     }
 
     // test if implementation meets criteria from the description, like:
@@ -103,4 +98,24 @@ fun main() {
     check(part2(testInput) == 288957L)
 
     println(part2(input))
+}
+
+private fun Char?.toPointsForIncorrect(): Int {
+    return when (this) {
+        ')' -> 3
+        ']' -> 57
+        '}' -> 1197
+        '>' -> 25137
+        else -> 0
+    }
+}
+
+private fun Char.toPointsForMissing(): Int {
+    return when (this) {
+        ')' -> 1
+        ']' -> 2
+        '}' -> 3
+        '>' -> 4
+        else -> 0
+    }
 }
