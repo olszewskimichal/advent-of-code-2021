@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day05
 
 import readInput
+import readTestInput
 import kotlin.math.absoluteValue
 
 data class Point(val x: Int, val y: Int)
@@ -65,10 +66,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day05", "Day05_test")
+    val testInput = readTestInput("day05")
     check(part1(testInput) == 5)
 
-    val input = readInput("day05", "Day05")
+    val input = readInput("day05")
     println(part1(input))
 
     check(part2(testInput) == 12)

@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day03
 
 import readInput
+import readTestInput
 
 fun isMoreZeroThanOnes(position: List<Char>) = position.count { it == '0' } > position.count { it == '1' }
 
@@ -64,10 +65,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day03", "Day03_test")
+    val testInput = readTestInput("day03")
     check(part1(testInput) == 198)
 
-    val input = readInput("day03", "Day03")
+    val input = readInput("day03")
     println(part1(input))
 
     check(part2(testInput) == 230)

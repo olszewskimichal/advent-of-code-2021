@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day07
 
 import readInput
+import readTestInput
 import kotlin.math.absoluteValue
 
 fun main() {
@@ -23,10 +24,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day07", "Day07_test")
+    val testInput = readTestInput("day07")
     check(part1(testInput) == 37)
 
-    val input = readInput("day07", "Day07")
+    val input = readInput("day07")
     println(part1(input))
 
     check(part2(testInput) == 168)

@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day10
 
 import readInput
+import readTestInput
 
 
 fun <T> MutableList<T>.push(item: T) = add(item)
@@ -89,10 +90,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day10", "Day10_test")
+    val testInput = readTestInput("day10")
     check(part1(testInput) == 26397)
 
-    val input = readInput("day10", "Day10")
+    val input = readInput("day10")
     println(part1(input))
 
     check(part2(testInput) == 288957L)

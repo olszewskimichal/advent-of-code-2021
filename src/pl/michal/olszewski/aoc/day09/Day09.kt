@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day09
 
 import readInput
+import readTestInput
 
 fun main() {
     data class PositionWithValue(val x: Int, val y: Int, val value: Int)
@@ -72,10 +73,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day09", "Day09_test")
+    val testInput = readTestInput("day09")
     check(part1(testInput) == 15)
 
-    val input = readInput("day09", "Day09")
+    val input = readInput("day09")
     println(part1(input))
 
     check(part2(testInput) == 1134)

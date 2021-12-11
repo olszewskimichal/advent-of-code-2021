@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day06
 
 import readInput
+import readTestInput
 
 fun main() {
 
@@ -37,10 +38,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day06", "Day06_test")
+    val testInput = readTestInput("day06")
     check(part1(testInput) == 5934L)
 
-    val input = readInput("day06", "Day06")
+    val input = readInput("day06")
     println(part1(input))
 
     check(part2(testInput) == 26984457539L)

@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day01
 
 import readInput
+import readTestInput
 
 fun countIncreases(input: List<Int>, window: Int = 1) = input.asSequence()
     .windowed(window)
@@ -28,10 +29,10 @@ fun main() {
         return countIncreases(input, window = 3)
     }
 
-    val testInput = readInput("day01", "Day01_test").map { it.toInt() }
+    val testInput = readTestInput("day01").map { it.toInt() }
     check(part1(testInput) == 7)
 
-    val input = readInput("day01", "Day01").map { it.toInt() }
+    val input = readInput("day01").map { it.toInt() }
     println(part1(input))
 
     check(part2(testInput) == 5)

@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.day04
 
 import readInput
+import readTestInput
 
 private const val BOARD_SIZE = 5
 
@@ -90,10 +91,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day04", "Day04_test")
+    val testInput = readTestInput("day04")
     check(part1(testInput) == 4512)
 
-    val input = readInput("day04", "Day04")
+    val input = readInput("day04")
     println(part1(input))
 
     check(part2(testInput) == 1924)

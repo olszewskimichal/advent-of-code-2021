@@ -6,6 +6,7 @@ import pl.michal.olszewski.aoc.day02.Direction.UP
 import pl.michal.olszewski.aoc.day02.Direction.valueOf
 import pl.michal.olszewski.aoc.day02.Position.Companion.INITIAL_POSITION
 import readInput
+import readTestInput
 
 enum class Direction {
     FORWARD,
@@ -94,10 +95,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("day02", "Day02_test")
+    val testInput = readTestInput("day02")
     check(part1(testInput) == 150)
 
-    val input = readInput("day02", "Day02")
+    val input = readInput("day02")
     println(part1(input))
 
     check(part2(testInput) == 900)

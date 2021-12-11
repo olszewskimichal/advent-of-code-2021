@@ -1,6 +1,7 @@
 package pl.michal.olszewski.aoc.template
 
 import readInput
+import readTestInput
 
 fun main() {
     fun part1(input: List<String>): Int {
@@ -12,10 +13,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("template", "Day01_test")
+    val testInput = readTestInput("template")
     check(part1(testInput) == 1)
 
-    val input = readInput("template", "Day01")
+    val input = readInput("template")
     //println(part1(input))
 
     check(part2(testInput) == 1)
