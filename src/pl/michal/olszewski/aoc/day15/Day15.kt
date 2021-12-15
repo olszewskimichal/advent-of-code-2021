@@ -10,14 +10,32 @@ data class Point(val x: Int, val y: Int)
 fun main() {
     val startingPoint = Point(0, 0)
 
-    fun neighbours(element: Point): List<Point> {
+    fun neighbours(element: Point, height: Int, width: Int): List<Point> {
         val x = element.x
         val y = element.y
-        return listOf(Point(x - 1, y), Point(x + 1, y), Point(x, y + 1), Point(x, y - 1))
+        val result = mutableListOf<Point>()
+        if (x + 1 <= width) {
+            result.add(Point(x + 1, y))
+        }
+        if (x - 1 >= 0) {
+            result.add(Point(x - 1, y))
+        }
+
+        if (y + 1 <= height) {
+            result.add(Point(x, y + 1))
+        }
+        if (y - 1 >= 0) {
+            result.add(Point(x, y - 1))
+        }
+
+        return result
     }
 
     fun dijkstra(input: List<List<Int>>, pair: Point, startingPoint: Point): Map<Point, Int> {
         val distances = mutableMapOf<Point, Int>()
+
+        val height = input.lastIndex
+        val width = input[height].lastIndex
 
         val queue = mutableMapOf<Point, Int>()
         distances[startingPoint] = 0
@@ -28,9 +46,8 @@ fun main() {
             if (element == pair) break
             queue.remove(element)
             val value = distances[element]!!
-            neighbours(element).forEach { neighbour ->
-                if (neighbour.y < 0 || neighbour.y > input.lastIndex || neighbour.x < 0 || neighbour.x > input[neighbour.y].lastIndex) return@forEach
-                val newValue = value + input[neighbour.y][neighbour.x]
+            neighbours(element, height, width).forEach { neighbour ->
+                val newValue = value + input[neighbour.x][neighbour.y]
                 if (newValue < distances.getOrDefault(neighbour, MAX_VALUE)) {
                     distances[neighbour] = newValue
                     queue[neighbour] = newValue
