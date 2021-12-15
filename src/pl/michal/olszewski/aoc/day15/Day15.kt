@@ -31,7 +31,7 @@ fun main() {
         return result
     }
 
-    fun dijkstra(input: List<List<Int>>, pair: Point, startingPoint: Point): Map<Point, Int> {
+    fun dijkstra(input: List<List<Int>>, endingPoint: Point, startingPoint: Point): Map<Point, Int> {
         val distances = mutableMapOf<Point, Int>()
 
         val height = input.lastIndex
@@ -43,7 +43,7 @@ fun main() {
 
         while (queue.isNotEmpty()) {
             val element = queue.minByOrNull { it.value }!!.key
-            if (element == pair) break
+            if (element == endingPoint) break
             queue.remove(element)
             val value = distances[element]!!
             neighbours(element, height, width).forEach { neighbour ->
@@ -98,8 +98,9 @@ fun main() {
         val extendedInput = extend(input.map { line -> line.map { it.digitToInt() } })
         val targetY = extendedInput.lastIndex
         val targetX = extendedInput[targetY].lastIndex
-        val distances = dijkstra(extendedInput, Point(targetX, targetY), startingPoint)
-        return distances[Point(targetX, targetY)]!!
+        val endingPoint = Point(targetX, targetY)
+        val distances = dijkstra(extendedInput, endingPoint, startingPoint)
+        return distances[endingPoint]!!
     }
 
     // test if implementation meets criteria from the description, like:
